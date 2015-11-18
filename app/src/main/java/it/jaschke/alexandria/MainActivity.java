@@ -15,7 +15,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import it.jaschke.alexandria.api.Callback;
 
@@ -97,6 +101,18 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         actionBar.setTitle(title);
     }
 
+    //FIX - add an activity result for scanner...
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanResult != null) {
+            // handle scan result
+            EditText ean = (EditText) findViewById(R.id.ean);
+            if(ean != null) {
+                ean.setText(scanResult.getContents());
+            }
+            //Toast.makeText(getApplicationContext(),scanResult.getContents(),Toast.LENGTH_LONG).show();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

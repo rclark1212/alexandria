@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import it.jaschke.alexandria.data.AlexandriaContract;
 import it.jaschke.alexandria.services.BookService;
@@ -96,12 +98,22 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
                 // Hint: Use a Try/Catch block to handle the Intent dispatch gracefully, if you
                 // are using an external app.
                 //when you're done, remove the toast below.
-                Context context = getActivity();
-                CharSequence text = "This button should let you scan a book for its barcode!";
-                int duration = Toast.LENGTH_SHORT;
 
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                //
+                //  FIX
+                //  Implemented bar code scanning using 3rd party library
+                //  https://github.com/journeyapps/zxing-android-embedded
+                //  licensed under Apache license 2.0
+                //
+                IntentIntegrator integrator = new IntentIntegrator(getActivity());
+                integrator.initiateScan();
+
+                //Context context = getActivity();
+                //CharSequence text = "This button should let you scan a book for its barcode!";
+                //int duration = Toast.LENGTH_SHORT;
+
+                //Toast toast = Toast.makeText(context, text, duration);
+                //toast.show();
 
             }
         });
@@ -124,7 +136,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
             }
         });
 
-        if(savedInstanceState!=null){
+        if (savedInstanceState!=null){
             ean.setText(savedInstanceState.getString(EAN_CONTENT));
             ean.setHint("");
         }
