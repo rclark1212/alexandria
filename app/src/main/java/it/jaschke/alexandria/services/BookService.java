@@ -2,8 +2,11 @@ package it.jaschke.alexandria.services;
 
 import android.app.IntentService;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -72,6 +75,9 @@ public class BookService extends IntentService {
      */
     private void fetchBook(String ean) {
 
+        //FIX - always good to validate a param is not null...
+        if (ean == null) return;
+
         if(ean.length()!=13){
             return;
         }
@@ -90,6 +96,9 @@ public class BookService extends IntentService {
         }
 
         bookEntry.close();
+
+        // FIX - check that there is a network connection before you go out to network...
+        if (!isOnline(getApplicationContext())) return;
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
@@ -230,4 +239,19 @@ public class BookService extends IntentService {
             values= new ContentValues();
         }
     }
- }
+
+    //
+    //  Utility routine to check if we have internet connection.
+    //
+    private boolean isOnline(Context ctx) {
+        ConnectivityManager cm =
+                (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+
+        if (netInfo == null)
+            return false;
+
+        return netInfo.isConnected();
+    }
+
+}
