@@ -105,6 +105,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
                 //  https://github.com/journeyapps/zxing-android-embedded
                 //  licensed under Apache license 2.0
                 //
+                clearFields();  //if you have a valid book then rescan and can't find the book, field is left over...
                 IntentIntegrator integrator = new IntentIntegrator(getActivity());
                 integrator.initiateScan();
 
