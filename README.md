@@ -21,16 +21,22 @@ Other issues seen:
 - cleared info when scanning again
 - fixed rotate in detail view when on phone
 
-ToDo: on tablet, rotate or lock destroys detail view of book.
-ToDo: selection from book list (second selection), causes about menu to come up (or other problems)
+- "fix" UI style change between portrait/landscape on tablet (this is really a design decision but think this design works better and 
+it also fixes bad back button behavior and losing detail view on rotate).
+- "fix" the back stack behavior of back button. This might be intentional but it does not match google GMS app behavior. And it introduces
+confusion (in my opinion) and some UI challenges. Remove the back stack behavior (don't ever go more than 2 deep).
+- fix overdraw on detail view when there is no network (have a valid image web url but can't load it)
+- fix title bar changing when rotating/suspend. TO BE CLEAR - when nav tray open will be app name. After selection, goes to subfunction name
+- preserve 2nd pane visibility through rotate/suspend.
+- fix landscape button layout on add book
+
+
+ToDo: delete button does not work in tablet
 ToDo: network warning on UI thread in logcat on executing
-ToDo: landscape book selection when no internet has overdraw
-ToDo: phone. title bar does not change when going back from about this app using back key
 ToDo: phone. When rotating, title bar does change (even though screen stays correct)
-ToDo: back key is shown on detail view for phone
 ToDo: no cancel/next in landscape mode when adding book
 Check: see if with an account share does anything.
-ToDo: search does not scale with character entry (i.e. search for something unique, backspace to null - elements don't show up until re-search)
+ToDo: search does not update with character entry (i.e. search for something unique, backspace to null - elements don't show up until re-search)
 
 
 

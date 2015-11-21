@@ -26,6 +26,9 @@ import it.jaschke.alexandria.api.Callback;
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Callback {
 
+    public static final String ARG_2ND_VISIBLE = "panevisible";
+    private int b2paneVisible = 1;
+
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -57,11 +60,22 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         navigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        title = getTitle();
+
+        //FIX - preserve title between rotates/suspend. Note that when tray is open, it will go to
+        //alexandria. Sort of tacky but will leave this feature.
+        //title = getTitle();
+        //FIX - restore the hidden/shown state of second pane
+        if (savedInstanceState != null) {
+            int vis = savedInstanceState.getInt(ARG_2ND_VISIBLE);
+            if (vis != 0)
+                setRightViewVisible(true);
+            else
+                setRightViewVisible(false);
+        }
 
         // Set up the drawer.
         navigationDrawerFragment.setUp(R.id.navigation_drawer,
-                    (DrawerLayout) findViewById(R.id.drawer_layout));
+                (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 
     @Override
@@ -74,21 +88,43 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             default:
             case 0:
                 nextFragment = new ListOfBooks();
+                //FIX - when adding or scanning a book, hide the detail view...
+                setRightViewVisible(true);
                 break;
             case 1:
                 nextFragment = new AddBook();
+                //FIX - when adding or scanning a book, hide the detail view...
+                setRightViewVisible(false);
                 break;
             case 2:
                 nextFragment = new About();
+                //FIX - when adding or scanning a book, hide the detail view...
+                setRightViewVisible(false);
                 break;
 
         }
 
+        //FIX - change behavior. Take out the back stack store. Makes a confusing UI and is different
+        //than other android app behavior...
         fragmentManager.beginTransaction()
                 .replace(R.id.container, nextFragment)
-                .addToBackStack((String) title)
+                //.addToBackStack((String) title)
                 .commit();
 
+    }
+
+    private void setRightViewVisible(boolean bVisible) {
+        View vw = findViewById(R.id.right_container);
+
+        if (vw != null) {
+            if (bVisible) {
+                vw.setVisibility(View.VISIBLE);
+                b2paneVisible = 1;
+            } else {
+                vw.setVisibility(View.INVISIBLE);
+                b2paneVisible = 0;
+            }
+        }
     }
 
     public void setTitle(int titleId) {
@@ -161,9 +197,11 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         if(findViewById(R.id.right_container) != null){
             id = R.id.right_container;
         }
+
+        //FIX - remove the back stack saving...
         getSupportFragmentManager().beginTransaction()
                 .replace(id, fragment)
-                .addToBackStack("Book Detail")
+                //.addToBackStack("Book Detail")
                 .commit();
 
     }
@@ -185,11 +223,17 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     @Override
     public void onBackPressed() {
-        if(getSupportFragmentManager().getBackStackEntryCount()<2){
-            finish();
-        }
+        //FIX - can remove below lines without a back stack...
+        //if(getSupportFragmentManager().getBackStackEntryCount()<2){
+        //    finish();
+        //}
         super.onBackPressed();
     }
 
-
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        // Save whether second view is visible or not...
+        outState.putInt(ARG_2ND_VISIBLE, b2paneVisible);
+        super.onSaveInstanceState(outState);
+    }
 }

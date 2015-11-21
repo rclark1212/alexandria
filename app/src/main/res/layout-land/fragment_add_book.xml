@@ -100,28 +100,28 @@
             android:layout_alignParentRight="true"
             >
 
-            <ImageButton
+            <!-- portrait uses normal buttons - use same for landscape -->
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:contentDescription="@string/cancel_button"
+                android:text="@string/cancel_button"
                 android:layout_weight="1"
-                android:src="@drawable/ic_action_discard"
                 style="?android:attr/buttonBarButtonStyle"
                 android:id="@+id/delete_button"
+                android:drawableTop="@drawable/ic_action_discard"
                 android:visibility="invisible"
                 />
 
-            <ImageButton
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:contentDescription="@string/ok_button"
                 android:text="@string/ok_button"
                 android:layout_weight="1"
                 android:id="@+id/save_button"
                 android:visibility="invisible"
-                android:src="@drawable/ic_action_accept"
+                android:drawableTop="@drawable/ic_action_accept"
                 style="?android:attr/buttonBarButtonStyle"
-                android:layout_gravity="bottom"
+                android:layout_gravity="right"
                 />
 
 

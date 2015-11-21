@@ -43,7 +43,7 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
 
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -59,7 +59,13 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
                 bookIntent.putExtra(BookService.EAN, ean);
                 bookIntent.setAction(BookService.DELETE_BOOK);
                 getActivity().startService(bookIntent);
-                getActivity().getSupportFragmentManager().popBackStack();
+
+                //if we are in two fragment... hide the second. else PopBackStack
+                if (MainActivity.IS_TABLET) {
+                    container.setVisibility(View.INVISIBLE);
+                } else {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
             }
         });
         return rootView;
@@ -98,7 +104,7 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
         shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text)+bookTitle);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text) + bookTitle);
 
         //FIX
         if (shareActionProvider != null)
