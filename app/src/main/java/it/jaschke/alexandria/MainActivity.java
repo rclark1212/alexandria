@@ -198,11 +198,17 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             id = R.id.right_container;
         }
 
-        //FIX - remove the back stack saving...
-        getSupportFragmentManager().beginTransaction()
-                .replace(id, fragment)
-                //.addToBackStack("Book Detail")
-                .commit();
+        //FIX - remove the back stack saving for tabet...
+        if (IS_TABLET) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(id, fragment)
+                    .commit();
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(id, fragment)
+                    .addToBackStack("Book Detail")      //note - no need to translate this. is internal only.
+                    .commit();
+        }
 
     }
 
@@ -210,6 +216,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         @Override
         public void onReceive(Context context, Intent intent) {
             if(intent.getStringExtra(MESSAGE_KEY)!=null){
+                //This toast simply executes the book not found message.
                 Toast.makeText(MainActivity.this, intent.getStringExtra(MESSAGE_KEY), Toast.LENGTH_LONG).show();
             }
         }

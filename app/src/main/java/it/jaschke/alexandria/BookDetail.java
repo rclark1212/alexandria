@@ -1,8 +1,10 @@
 package it.jaschke.alexandria;
 
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -106,7 +108,7 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text) + bookTitle);
 
-        //FIX
+        //FIX - ensure we don't have a null share provider
         if (shareActionProvider != null)
             shareActionProvider.setShareIntent(shareIntent);
 
@@ -143,12 +145,9 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         //super.onDestroyView();
 
         //FIX or TODO
-        //Feel that going out of detail view on rotate is not good UI but looks like this is intentional on tablet.
+        //Feel that going out of detail view on rotate is not good UI.
         //if(MainActivity.IS_TABLET && rootView.findViewById(R.id.right_container)==null){
         //    getActivity().getSupportFragmentManager().popBackStack();
         //}
-        //Difficult to discern intent here but I *think* it is to go into detail view only (if open) when
-        //rotate to portrait and back to list view + detail view when rotate to landscape...
-        //TODO for fixing above.
     }
 }

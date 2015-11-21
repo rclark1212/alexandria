@@ -11,16 +11,18 @@ You should be able to build and run at this point.
 
 ## Usage
 
-Rubric issues solved:
+Tested on N5, N9. 
+
+Udacity rubric issues solved:
 - handle lack of network connectivity
 - added bar scanner capability (embedded - does not require download)
+- extra error cases found
 
 Other issues seen:
 - added default value for preferences/settings
 - eliminated goback button on detail view (against android guidelines)
 - cleared info when scanning again
 - fixed rotate in detail view when on phone
-
 - "fix" UI style change between portrait/landscape on tablet (this is really a design decision but think this design works better and 
 it also fixes bad back button behavior and losing detail view on rotate).
 - "fix" the back stack behavior of back button. This might be intentional but it does not match google GMS app behavior. And it introduces
@@ -29,16 +31,25 @@ confusion (in my opinion) and some UI challenges. Remove the back stack behavior
 - fix title bar changing when rotating/suspend. TO BE CLEAR - when nav tray open will be app name. After selection, goes to subfunction name
 - preserve 2nd pane visibility through rotate/suspend.
 - fix landscape button layout on add book
+- Fix bug introduced by my changes above. When selecting book on phone, add list view to back stack
+- Fix unitialized loader in book list view (was resulting in no loader callback updates for when underlying data changed)
+- Fix null pointer on empty database when running for first time
+- Verified no hardcoded strings
 
+Remaining issues to address:
+accessibility testing
+unit test
+android:contentDescription
+and change left/right to start/end in layout files
 
-ToDo: delete button does not work in tablet
-ToDo: network warning on UI thread in logcat on executing
-ToDo: phone. When rotating, title bar does change (even though screen stays correct)
-ToDo: no cancel/next in landscape mode when adding book
-Check: see if with an account share does anything.
-ToDo: search does not update with character entry (i.e. search for something unique, backspace to null - elements don't show up until re-search)
-
-
+Potential remaining Work:
+- Jacoco is giving a network access warning on UI thread in logcat. This error comes from 3rd party library and looks harmless. Verified that
+alexandria itself is not executing network code on UI thread.
+- Action bar text is still kind of hacky. Most apps just leave the name of the nav menu function in action bar. Alexandria resets name to app
+name when nav drawer is open. As this is sort of a UI designer choice, leaving it as is (but bugs me).
+- Search could be improved. Search results only updated when clicking search button. You could make search dynamic on character entry.
+- UI itself does the job but is not the most exciting or attractive UI I have seen. Can probably do a good deal more polish here.
+- One could remove some unused code (CameraPreview). Left it in.
 
 ## History
 
