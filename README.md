@@ -36,11 +36,23 @@ confusion (in my opinion) and some UI challenges. Remove the back stack behavior
 - Fix null pointer on empty database when running for first time
 - Verified no hardcoded strings
 
+- Fixed layouts to support RtoL languages (start,end)
+- Updated nav one last time. While google photos does not save back stack on nav entries, for alexandria it
+is kind of weird to select "About" and have back button drop you back to launcher. Change so scan/about
+drops you back to list of books (see navigation below)
+- Updating pref settings to use a string resource instead of hardcode (missed that one above).
+- Updated about box text.
+- Add missing accessibility to search edit box.
+- Change nav drawer to top level view only (per google guidelines and photo, newstand examples). Implement
+back button for nav drawer on detail view.
+- Moved about dialog from nav drawer to options menu
+
+
 Remaining issues to address:
 accessibility testing
 unit test
 android:contentDescription
-and change left/right to start/end in layout files
+
 
 Potential remaining Work:
 - Jacoco is giving a network access warning on UI thread in logcat. This error comes from 3rd party library and looks harmless. Verified that
@@ -50,6 +62,20 @@ name when nav drawer is open. As this is sort of a UI designer choice, leaving i
 - Search could be improved. Search results only updated when clicking search button. You could make search dynamic on character entry.
 - UI itself does the job but is not the most exciting or attractive UI I have seen. Can probably do a good deal more polish here.
 - One could remove some unused code (CameraPreview). Left it in.
+- Layouts could be further optimized. Did not do this.
+
+## Navigation
+
+This topic deserves its own section. The initial project pushed all screen transactions to the back stack.
+I did not like this behavior as when you navigate for a while, it can take a large number of back clicks
+to exit the app (and I get lost as to where I am). Looking at other GMS apps like photos, newstand (and 
+google UI design documentation), they do not create a back stack on nav drawer selection and they also
+recommend only showing nav drawer when on the top level of the app (turn nav drawer into a back button
+when going into detail view).
+
+
+This new scheme has been implemented for alexandria. As part of this change, moved the about box
+from the nav drawer options (and put into settings).
 
 ## History
 

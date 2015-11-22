@@ -1,17 +1,21 @@
 package it.jaschke.alexandria;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,6 +65,10 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         navigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
+        // Set up the drawer.
+        navigationDrawerFragment.setUp(R.id.navigation_drawer,
+                (DrawerLayout) findViewById(R.id.drawer_layout));
+
         //FIX - preserve title between rotates/suspend. Note that when tray is open, it will go to
         //alexandria. Sort of tacky but will leave this feature.
         //title = getTitle();
@@ -72,11 +80,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             else
                 setRightViewVisible(false);
         }
-
-        // Set up the drawer.
-        navigationDrawerFragment.setUp(R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
     }
+
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -84,11 +89,14 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment nextFragment;
 
+        //FIX - change behavior of navigation for the phone case...
+        //TODO - describe behavior
+
         switch (position){
             default:
             case 0:
                 nextFragment = new ListOfBooks();
-                //FIX - when adding or scanning a book, hide the detail view...
+                //FIX - when adding or scanning a book, show the detail view...
                 setRightViewVisible(true);
                 break;
             case 1:
@@ -96,21 +104,21 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 //FIX - when adding or scanning a book, hide the detail view...
                 setRightViewVisible(false);
                 break;
+            /*
             case 2:
                 nextFragment = new About();
                 //FIX - when adding or scanning a book, hide the detail view...
                 setRightViewVisible(false);
-                break;
+                break; */
 
         }
 
         //FIX - change behavior. Take out the back stack store. Makes a confusing UI and is different
-        //than other android app behavior...
+        //than other android app behavior... See top of routine for reasoning...
         fragmentManager.beginTransaction()
                 .replace(R.id.container, nextFragment)
                 //.addToBackStack((String) title)
                 .commit();
-
     }
 
     private void setRightViewVisible(boolean bVisible) {
@@ -174,6 +182,19 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
+        } else if (id == R.id.action_about) {
+            //make about a dialog
+            AlertDialog.Builder about = new AlertDialog.Builder(this);
+            LayoutInflater inflater = this.getLayoutInflater();
+            View aboutview = inflater.inflate(R.layout.fragment_about,null);
+            about.setView(aboutview);
+            about.create().show();
+        } else if (id == android.R.id.home) {
+            //handle the up carat
+            if (navigationDrawerFragment.isDrawerHomeCarat()) {
+                onBackPressed();
+                return true;        //handled the selection (and keeps nav bar from showing sliding out again)
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -203,11 +224,17 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             getSupportFragmentManager().beginTransaction()
                     .replace(id, fragment)
                     .commit();
+
+            //and make sure to make the second fragment visible if on tablet...
+            setRightViewVisible(true);
         } else {
             getSupportFragmentManager().beginTransaction()
                     .replace(id, fragment)
-                    .addToBackStack("Book Detail")      //note - no need to translate this. is internal only.
+                    .addToBackStack("BookList")      //note - no need to translate this. is internal only.
                     .commit();
+
+            //Hide the nav bar (just like photos, newstand)
+            navigationDrawerFragment.enableDrawer(false);
         }
 
     }
@@ -235,6 +262,13 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         //    finish();
         //}
         super.onBackPressed();
+
+        //restore nav fragment view - maybe leave disabled and onresume in fragments, enable?
+        if (getFragmentManager().getBackStackEntryCount() == 0) {        //back at root
+            navigationDrawerFragment.enableDrawer(true);
+            //make sure drawer stays closed
+            navigationDrawerFragment.closeDrawer();
+        }
     }
 
     @Override
@@ -243,4 +277,5 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         outState.putInt(ARG_2ND_VISIBLE, b2paneVisible);
         super.onSaveInstanceState(outState);
     }
+
 }

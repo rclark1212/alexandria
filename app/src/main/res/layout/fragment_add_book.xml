@@ -27,7 +27,9 @@
                 android:maxLength="@integer/ean_size"
                 android:maxLines="1"
                 android:hint="@string/input_hint"
-                android:paddingRight="20dp"/>
+                android:paddingRight="20dp"
+                android:paddingEnd="20dp"
+                android:paddingLeft="20dp" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -46,8 +48,10 @@
             android:textStyle="bold"
             android:layout_marginTop="25dp"
             android:paddingRight="20dp"
+            android:paddingEnd="20dp"
+            android:paddingLeft="20dp"
             android:layout_below="@+id/eancontainer"
-            android:layout_alignLeft="@+id/eancontainer"
+            android:layout_alignLeft="@id/eancontainer"
             android:layout_alignStart="@+id/eancontainer"/>
 
         <TextView
@@ -58,7 +62,8 @@
             android:layout_below="@+id/bookTitle"
             android:maxLines="3"
             android:ellipsize="end"
-            android:layout_alignLeft="@+id/eancontainer"
+            android:layout_alignLeft="@id/eancontainer"
+            android:layout_alignStart="@id/eancontainer"
             />
 
         <TextView
@@ -69,8 +74,8 @@
             android:textSize="@dimen/small_fontsize"
             android:layout_marginTop="20dp"
             android:layout_below="@+id/bookSubTitle"
-            android:layout_alignRight="@+id/eancontainer"
-            android:layout_alignEnd="@+id/eancontainer"
+            android:layout_alignRight="@id/eancontainer"
+            android:layout_alignEnd="@id/eancontainer"
             />
 
         <ImageView
@@ -79,8 +84,8 @@
             android:id="@+id/bookCover"
             android:contentDescription="@string/book_cover"
             android:layout_alignTop="@+id/authors"
-            android:layout_alignLeft="@+id/eancontainer"
-            android:layout_alignStart="@+id/eancontainer"/>
+            android:layout_alignLeft="@id/eancontainer"
+            android:layout_alignStart="@id/eancontainer"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -89,8 +94,8 @@
             android:textSize="@dimen/small_fontsize"
             android:layout_below="@+id/bookCover"
             android:layout_marginTop="20dp"
-            android:layout_alignLeft="@+id/eancontainer"
-            android:layout_alignStart="@+id/eancontainer"/>
+            android:layout_alignLeft="@id/eancontainer"
+            android:layout_alignStart="@id/eancontainer"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -108,6 +113,7 @@
                 style="?android:attr/buttonBarButtonStyle"
                 android:id="@+id/delete_button"
                 android:drawableLeft="@drawable/ic_action_discard"
+                android:drawableStart="@drawable/ic_action_discard"
                 android:visibility="invisible"
                 />
 
@@ -119,6 +125,7 @@
                 android:layout_weight="1"
                 android:id="@+id/save_button"
                 android:drawableLeft="@drawable/ic_action_accept"
+                android:drawableStart="@drawable/ic_action_accept"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_gravity="bottom"
                 />

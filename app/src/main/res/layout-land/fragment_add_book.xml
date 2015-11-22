@@ -6,7 +6,7 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_gravity="left|center_vertical">
+        android:layout_gravity="start|center_vertical">
 
         <EditText
             android:layout_width="wrap_content"
@@ -33,9 +33,9 @@
             android:id="@+id/scan_button"
             android:layout_marginLeft="23dp"
             android:layout_marginStart="23dp"
-            android:layout_alignBottom="@+id/ean"
-            android:layout_toRightOf="@+id/ean"
-            android:layout_toEndOf="@+id/ean"/>
+            android:layout_alignBottom="@id/ean"
+            android:layout_toRightOf="@id/ean"
+            android:layout_toEndOf="@id/ean"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -44,9 +44,9 @@
             android:textSize="@dimen/head_line"
             android:textIsSelectable="true"
             android:textStyle="bold"
-            android:layout_below="@+id/scan_button"
-            android:layout_alignLeft="@+id/ean"
-            android:layout_alignStart="@+id/ean"
+            android:layout_below="@id/scan_button"
+            android:layout_alignLeft="@id/ean"
+            android:layout_alignStart="@id/ean"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"/>
@@ -55,9 +55,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/bookSubTitle"
-            android:layout_below="@+id/bookTitle"
-            android:layout_alignLeft="@+id/bookTitle"
-            android:layout_alignStart="@+id/bookTitle"
+            android:layout_below="@id/bookTitle"
+            android:layout_alignLeft="@id/bookTitle"
+            android:layout_alignStart="@id/bookTitle"
             android:layout_marginTop="10dp"/>
 
         <ImageView
@@ -67,9 +67,9 @@
             android:contentDescription="@string/book_cover"
             android:minHeight="20dip"
             android:minWidth="20dip"
-            android:layout_below="@+id/bookSubTitle"
-            android:layout_alignLeft="@+id/bookSubTitle"
-            android:layout_alignStart="@+id/bookSubTitle"
+            android:layout_below="@id/bookSubTitle"
+            android:layout_alignLeft="@id/bookSubTitle"
+            android:layout_alignStart="@id/bookSubTitle"
             />
 
         <TextView
@@ -78,8 +78,10 @@
             android:id="@+id/authors"
             android:textSize="@dimen/small_fontsize"
             android:layout_marginLeft="25dp"
-            android:layout_alignTop="@+id/bookCover"
-            android:layout_toRightOf="@+id/bookCover"
+            android:layout_marginStart="25dp"
+            android:layout_alignTop="@id/bookCover"
+            android:layout_toRightOf="@id/bookCover"
+            android:layout_toEndOf="@id/bookCover"
             />
 
         <TextView
@@ -87,9 +89,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/categories"
             android:textSize="@dimen/small_fontsize"
-            android:layout_below="@+id/bookCover"
-            android:layout_alignLeft="@+id/bookCover"
-            android:layout_alignStart="@+id/bookCover"
+            android:layout_below="@id/bookCover"
+            android:layout_alignLeft="@id/bookCover"
+            android:layout_alignStart="@id/bookCover"
             android:layout_marginTop="10dp"/>
 
         <LinearLayout
@@ -98,6 +100,7 @@
             android:layout_height="fill_parent"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             >
 
             <!-- portrait uses normal buttons - use same for landscape -->
@@ -121,7 +124,7 @@
                 android:visibility="invisible"
                 android:drawableTop="@drawable/ic_action_accept"
                 style="?android:attr/buttonBarButtonStyle"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 />
 
 

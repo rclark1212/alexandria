@@ -12,6 +12,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -77,7 +78,7 @@ public class NavigationDrawerFragment extends Fragment {
             mFromSavedInstanceState = true;
         }else{
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            mCurrentSelectedPosition = Integer.parseInt(prefs.getString("pref_startFragment","0"));
+            mCurrentSelectedPosition = Integer.parseInt(prefs.getString(getResources().getString(R.string.pref_setting_arg),getResources().getString(R.string.pref_setting_default)));
             selectItem(mCurrentSelectedPosition);
         }
 
@@ -108,7 +109,6 @@ public class NavigationDrawerFragment extends Fragment {
                 new String[]{
                         getString(R.string.books),
                         getString(R.string.scan),
-                        getString(R.string.about),
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
@@ -278,5 +278,33 @@ public class NavigationDrawerFragment extends Fragment {
          * Called when an item in the navigation drawer is selected.
          */
         void onNavigationDrawerItemSelected(int position);
+    }
+
+    //helper function to force drawer closed
+    public void closeDrawer() {
+        if (mDrawerLayout != null) {
+            mDrawerLayout.closeDrawer(mFragmentContainerView);
+        }
+    }
+
+    //helper function to flip back and forth from drawer to home carat (and lock drawer closed or not)
+    public void enableDrawer(boolean bShow) {
+        if (mDrawerToggle != null) {
+            if (bShow) {
+                mDrawerToggle.setDrawerIndicatorEnabled(true);
+                getActionBar().setHomeButtonEnabled(true);
+            } else {
+                mDrawerToggle.setDrawerIndicatorEnabled(false);
+                getActionBar().setHomeButtonEnabled(false);
+            }
+        }
+    }
+
+    //helpder function to tell us when drawer is a home carat
+    public boolean isDrawerHomeCarat() {
+        if (mDrawerToggle.isDrawerIndicatorEnabled())
+            return false;
+        else
+            return true;
     }
 }
