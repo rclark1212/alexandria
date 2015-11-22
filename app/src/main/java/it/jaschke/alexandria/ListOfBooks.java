@@ -39,7 +39,8 @@ public class ListOfBooks extends Fragment implements LoaderManager.LoaderCallbac
         super.onCreate(savedInstanceState);
     }
 
-    //FIX - need to init the loader!
+
+    //Need to init the loader!
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(LOADER_ID, null, this);
@@ -49,6 +50,8 @@ public class ListOfBooks extends Fragment implements LoaderManager.LoaderCallbac
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        //lint complains cursor should be closed but it is needed for cursoradapter. Believe lint is wrong on this one.
+        //Per android documentation, should not call close on a cursor which is used by a cursorloader. Leave as is.
         Cursor cursor = getActivity().getContentResolver().query(
                 AlexandriaContract.BookEntry.CONTENT_URI,
                 null, // leaving "columns" null just returns all the columns.
@@ -57,8 +60,8 @@ public class ListOfBooks extends Fragment implements LoaderManager.LoaderCallbac
                 null  // sort order
         );
 
-
         bookListAdapter = new BookListAdapter(getActivity(), cursor, 0);
+
         View rootView = inflater.inflate(R.layout.fragment_list_of_books, container, false);
         searchText = (EditText) rootView.findViewById(R.id.searchText);
         rootView.findViewById(R.id.searchButton).setOnClickListener(

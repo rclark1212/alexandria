@@ -18,40 +18,30 @@ Udacity rubric issues solved:
 - added bar scanner capability (embedded - does not require download)
 - extra error cases found
 
-Other issues seen:
+Other issues seen/resolved/changed:
 - added default value for preferences/settings
 - eliminated goback button on detail view (against android guidelines)
-- cleared info when scanning again
+- cleared info when scanning next book
 - fixed rotate in detail view when on phone
 - "fix" UI style change between portrait/landscape on tablet (this is really a design decision but think this design works better and 
-it also fixes bad back button behavior and losing detail view on rotate).
+it also fixes bad back button behavior and losing detail view on rotate). Keep 2 pane in both views on tablet.
 - "fix" the back stack behavior of back button. This might be intentional but it does not match google GMS app behavior. And it introduces
-confusion (in my opinion) and some UI challenges. Remove the back stack behavior (don't ever go more than 2 deep).
+confusion (in my opinion) and some UI challenges. Remove the back stack behavior (don't ever go more than 1 deep).
 - fix overdraw on detail view when there is no network (have a valid image web url but can't load it)
 - fix title bar changing when rotating/suspend. TO BE CLEAR - when nav tray open will be app name. After selection, goes to subfunction name
 - preserve 2nd pane visibility through rotate/suspend.
 - fix landscape button layout on add book
-- Fix bug introduced by my changes above. When selecting book on phone, add list view to back stack
 - Fix unitialized loader in book list view (was resulting in no loader callback updates for when underlying data changed)
 - Fix null pointer on empty database when running for first time
 - Verified no hardcoded strings
-
 - Fixed layouts to support RtoL languages (start,end)
-- Updated nav one last time. While google photos does not save back stack on nav entries, for alexandria it
-is kind of weird to select "About" and have back button drop you back to launcher. Change so scan/about
-drops you back to list of books (see navigation below)
-- Updating pref settings to use a string resource instead of hardcode (missed that one above).
 - Updated about box text.
 - Add missing accessibility to search edit box.
 - Change nav drawer to top level view only (per google guidelines and photo, newstand examples). Implement
-back button for nav drawer on detail view.
+back button for nav drawer on detail view. See navigation below.
 - Moved about dialog from nav drawer to options menu
-
-
-Remaining issues to address:
-accessibility testing
-unit test
-android:contentDescription
+- fix important/valid lint issues
+- fix delete bug in phone view (call onBackPressed instead of pop stack)
 
 
 Potential remaining Work:

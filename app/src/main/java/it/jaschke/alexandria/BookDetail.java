@@ -1,8 +1,10 @@
 package it.jaschke.alexandria;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -66,7 +68,7 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
                 if (MainActivity.IS_TABLET) {
                     container.setVisibility(View.INVISIBLE);
                 } else {
-                    getActivity().getSupportFragmentManager().popBackStack();
+                    getActivity().onBackPressed();
                 }
             }
         });
@@ -94,6 +96,7 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         );
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onLoadFinished(android.support.v4.content.Loader<Cursor> loader, Cursor data) {
         if (!data.moveToFirst()) {
@@ -104,7 +107,10 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         ((TextView) rootView.findViewById(R.id.fullBookTitle)).setText(bookTitle);
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        }
+
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text) + bookTitle);
 

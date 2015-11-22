@@ -5,10 +5,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -186,7 +184,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             //make about a dialog
             AlertDialog.Builder about = new AlertDialog.Builder(this);
             LayoutInflater inflater = this.getLayoutInflater();
-            View aboutview = inflater.inflate(R.layout.fragment_about,null);
+            //lint will warn on passing null but is actually what I want to do for centering dialog on both phone and tablet views
+            View aboutview = inflater.inflate(R.layout.fragment_about, null);   //ignore lint warning here
             about.setView(aboutview);
             about.create().show();
         } else if (id == android.R.id.home) {

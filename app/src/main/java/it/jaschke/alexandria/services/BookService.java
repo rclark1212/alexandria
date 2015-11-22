@@ -90,12 +90,14 @@ public class BookService extends IntentService {
                 null  // sort order
         );
 
-        if(bookEntry.getCount()>0){
-            bookEntry.close();
-            return;
-        }
+        if (bookEntry != null) {
+            if (bookEntry.getCount() > 0) {
+                bookEntry.close();
+                return;
+            }
 
-        bookEntry.close();
+            bookEntry.close();
+        }
 
         // FIX - check that there is a network connection before you go out to network...
         if (!isOnline(getApplicationContext())) return;
